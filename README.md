@@ -68,7 +68,7 @@ VIN-Decoder/
 
 ```bash
 # Clone the repo
-git clone https://github.com/ThunderDrag/vin-decoder.git
+git clone https://github.com/kjhq/vin-decoder.git
 
 # Open in browser — no build step needed
 open VIN-Decoder/index.html
@@ -83,4 +83,4 @@ open VIN-Decoder/index.html
 - Ford's month encoding requires additional logic not yet implemented
 - Only decodes manufacturer, year, and month — plant/serial number not included
 
-See [open issues](https://github.com/ThunderDrag/vin-decoder/issues) for planned improvements.
+See [open issues](https://github.com/kjhq/vin-decoder/issues) for planned improvements.
