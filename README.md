@@ -1,86 +1,93 @@
-# 🚗 Indian VIN Decoder
+# vin-decoder
 
-A client-side **Vehicle Identification Number (VIN) decoder** for Indian vehicles. Enter a 17-character VIN and instantly get the manufacturer, manufacturing year, and month — no API calls, no backend, no dependencies.
+client-side indian vin decoder — 17 manufacturers, zero deps, zero api calls.
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?style=flat-square&logo=vercel)](https://vin-decoder-xi.vercel.app)
+[![live demo](https://img.shields.io/badge/live%20demo-vercel-000000?style=flat-square&logo=vercel)](https://vin-decoder-xi.vercel.app)
+
+![html](https://img.shields.io/badge/html-E34F26?style=flat-square&logo=html5&logoColor=white)
+![css](https://img.shields.io/badge/css-1572B6?style=flat-square&logo=css3&logoColor=white)
+![javascript](https://img.shields.io/badge/javascript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![vercel](https://img.shields.io/badge/vercel-000000?style=flat-square&logo=vercel)
+
+`vanilla js` `vercel`
 
 ---
 
-## 📋 Supported Manufacturers
+## supported manufacturers
 
 | | | | |
 |---|---|---|---|
-| Tata Motors | Mahindra | Maruti Suzuki | Hyundai |
-| Toyota | Honda | Ford | Chevrolet |
-| Mitsubishi | Nissan | Renault | Kia |
-| Volkswagen | Skoda | Fiat | Jeep |
-| MG | | | |
+| tata motors | mahindra | maruti suzuki | hyundai |
+| toyota | honda | ford | chevrolet |
+| mitsubishi | nissan | renault | kia |
+| volkswagen | skoda | fiat | jeep |
+| mg | | | |
 
-**17 manufacturers** covering the vast majority of Indian-market vehicles.
+17 manufacturers covering most indian-market vehicles.
 
 ---
 
-## 🔧 How It Works
+## how it works
 
-1. Enter a 17-character VIN (e.g., `MAT629103K1H01674`)
-2. The first 3 characters (WMI — World Manufacturer Identifier) identify the manufacturer
-3. Manufacturer-specific lookup tables decode the **year** and **month** from specific VIN character positions
-4. Results are displayed instantly in a clean card layout
+1. enter a 17-character vin (e.g. `MAT629103K1H01674`)
+2. first 3 chars (wmi) identify the manufacturer
+3. manufacturer lookup tables decode **year** and **month**
+4. results shown instantly in a card layout
 
-Different manufacturers use different encoding schemes — this tool handles **6 year-encoding types** and **5 month-encoding types**:
+handles 6 year-encoding types and 5 month-encoding types:
 
-| Encoding | Used by |
+| encoding | used by |
 |----------|---------|
-| **Year Type 1** (A-T → 2010-2030) | Tata, Honda, Mahindra, Hyundai, etc. |
-| **Year Type 4** (2-digit number → 2010-2030) | Volkswagen, Skoda, Toyota |
-| **Month Type 1** (A-P → Jan-Dec) | Tata, Honda, Hyundai |
-| **Month Type 5** (1-C → Jan-Dec) | Nissan, Renault |
+| year type 1 (a-t → 2010-2030) | tata, honda, mahindra, hyundai, etc. |
+| year type 4 (2-digit → 2010-2030) | volkswagen, skoda, toyota |
+| month type 1 (a-p → jan-dec) | tata, honda, hyundai |
+| month type 5 (1-c → jan-dec) | nissan, renault |
 
 ---
 
-## 🛠️ Tech Stack
+## stack
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=flat-square&logo=vercel)
-
-- **Zero npm dependencies** — pure vanilla HTML/CSS/JS
-- **Zero API calls** — all decoding logic is client-side with hardcoded lookup tables
-- **Zero build step** — served as-is by Vercel as a static site
+- zero npm dependencies — pure vanilla html/css/js
+- zero api calls — all decoding client-side
+- zero build step — static site on vercel
 
 ---
 
-## 📁 Project Structure
+## project structure
 
 ```
 VIN-Decoder/
-├── index.html       # Main page with VIN input and result cards
-├── script.js        # All decoding logic (~320 lines)
-├── style.css        # Responsive styling
-├── disclaimer.html  # Legal disclaimer page
-└── TODO             # Known limitations
+├── index.html
+├── script.js
+├── style.css
+├── disclaimer.html
+└── TODO
 ```
 
 ---
 
-## 🚀 Run Locally
+## run locally
 
 ```bash
-# Clone the repo
 git clone https://github.com/kjhq/vin-decoder.git
-
-# Open in browser — no build step needed
 open VIN-Decoder/index.html
 ```
 
 ---
 
-## ⚠️ Known Limitations
+## known limitations
 
-- No support for older Maruti Suzuki cars (pre-2010 encoding)
-- Volkswagen and Skoda share the manufacturer code `MEX` after 2021 (ambiguity)
-- Ford's month encoding requires additional logic not yet implemented
-- Only decodes manufacturer, year, and month — plant/serial number not included
+- no support for older maruti suzuki (pre-2010 encoding)
+- vw/skoda share `MEX` after 2021 (ambiguity)
+- ford month encoding not fully implemented
+- decodes manufacturer, year, month only — not plant/serial
 
-See [open issues](https://github.com/kjhq/vin-decoder/issues) for planned improvements.
+see [open issues](https://github.com/kjhq/vin-decoder/issues) for planned work.
+
+---
+
+<div align="center">
+
+built by [kjhq](https://kjhq.dev) · [@kjhqdev](https://x.com/kjhqdev)
+
+</div>
