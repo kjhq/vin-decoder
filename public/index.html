@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian VIN Decoder</title>
+    <meta name="description" content="Decode Indian Vehicle Identification Numbers (VIN) easily with our Indian VIN Decoder tool. You can check your VIN number with our tool.">
+    <meta name="keywords" content="VIN, Indian VIN Decoder, Vehicle Identification Number, Car VIN, Decode VIN">
+    <meta property="og:title" content="Indian VIN Decoder">
+    <meta property="og:description" content="Decode Indian Vehicle Identification Numbers (VIN) easily with our Indian VIN Decoder tool. You can check your VIN number with our tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vin-decoder-xi.vercel.app/">
+    <meta name="google-site-verification" content="wxRRciobbkTcsoYNcCNmtKQX2_wS3mVg1l7ezK6rdNI" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Indian VIN Decoder</h1>
+    <input type="text" id="vin-input" class="vin-input" placeholder="Enter VIN number here">
+    <p id="warning-message"></p>
+    <button id="submit-btn" class="submit-btn">Submit</button>
+    
+    <p id="entered_vin"></p>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-title">Manufacturer</div>
+            <div class="card-value" id="value-manufacturer">-</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Manufacturing Year</div>
+            <div class="card-value" id="value-year">-</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Manufacturing Month</div>
+            <div class="card-value" id="value-month">-</div>
+        </div>
+    </div>
+    <footer>
+        <p>
+            By using this tool, you agree to our <a href="disclaimer.html" style="color: #007BFF; text-decoration: underline;">Legal Disclaimer</a>.
+        </p>
+    </footer>    
+    <script src="script.js"></script>
+</body>
+</html>

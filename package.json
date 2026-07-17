@@ -1,0 +1,11 @@
+{
+  "name": "vin-decoder",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^4.112.0"
+  }
+}
