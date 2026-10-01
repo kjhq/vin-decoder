@@ -1,15 +1,29 @@
+<div align="center">
+
 # vin-decoder
 
-client-side indian vin decoder — 17 manufacturers, zero deps, zero api calls.
+**a client-side vin decoder for indian vehicles.**
+17 manufacturers, zero runtime dependencies, zero api calls. paste a vin, get the maker, year and month of manufacture.
 
-[![live demo](https://img.shields.io/badge/live%20demo-vercel-000000?style=flat-square&logo=vercel)](https://vin-decoder-xi.vercel.app)
+[![live demo](https://img.shields.io/badge/live%20demo-vin.kjhq.dev-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://vin.kjhq.dev)
 
-![html](https://img.shields.io/badge/html-E34F26?style=flat-square&logo=html5&logoColor=white)
-![css](https://img.shields.io/badge/css-1572B6?style=flat-square&logo=css3&logoColor=white)
-![javascript](https://img.shields.io/badge/javascript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![vercel](https://img.shields.io/badge/vercel-000000?style=flat-square&logo=vercel)
+[![html](https://img.shields.io/badge/html-E34F26?style=flat-square&logo=html5&logoColor=white)](https://developer.mozilla.org/docs/Web/HTML)
+[![css](https://img.shields.io/badge/css-1572B6?style=flat-square&logo=css3&logoColor=white)](https://developer.mozilla.org/docs/Web/CSS)
+[![javascript](https://img.shields.io/badge/javascript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/docs/Web/JavaScript)
+[![cloudflare workers](https://img.shields.io/badge/cloudflare%20workers-F38020?style=flat-square&logo=cloudflareworkers&logoColor=white)](https://workers.cloudflare.com/)
 
-`vanilla js` `vercel`
+</div>
+
+---
+
+## features
+
+- **instant decoding** in the browser, nothing is sent anywhere
+- **17 manufacturers** commonly sold in india
+- **manufacturer, year and month** from the vin's own encoding rules
+- handles **6 year encodings** and **5 month encodings** used by different makers
+- clear warnings for unknown manufacturer codes or makers that don't encode a year / month
+- tiny static site: one html page, one script, one stylesheet
 
 ---
 
@@ -23,54 +37,80 @@ client-side indian vin decoder — 17 manufacturers, zero deps, zero api calls.
 | volkswagen | skoda | fiat | jeep |
 | mg | | | |
 
-17 manufacturers covering most indian-market vehicles.
-
 ---
 
 ## how it works
 
-1. enter a 17-character vin (e.g. `MAT629103K1H01674`)
-2. first 3 chars (wmi) identify the manufacturer
-3. manufacturer lookup tables decode **year** and **month**
-4. results shown instantly in a card layout
+```mermaid
+flowchart LR
+    V[vin input] --> W[first 3 chars<br/>wmi]
+    W --> T[manufacturer table<br/>year / month position + encoding type]
+    T --> Y[year lookup table]
+    T --> M[month lookup table]
+    Y --> R[result cards]
+    M --> R
+```
 
-handles 6 year-encoding types and 5 month-encoding types:
+1. enter a vin (e.g. `MAT629103K1H01674`)
+2. the first 3 characters (the world manufacturer identifier, wmi) select the manufacturer
+3. each manufacturer entry says where the year and month codes sit in the vin and which encoding they use
+4. the codes are looked up in the matching year / month tables and shown in a card layout
 
-| encoding | used by |
-|----------|---------|
-| year type 1 (a-t → 2010-2030) | tata, honda, mahindra, hyundai, etc. |
-| year type 4 (2-digit → 2010-2030) | volkswagen, skoda, toyota |
-| month type 1 (a-p → jan-dec) | tata, honda, hyundai |
-| month type 5 (1-c → jan-dec) | nissan, renault |
+examples of the encodings it handles:
+
+| encoding | mapping | used by |
+|---|---|---|
+| year type 1 | letter `A`-`Y` → 2010-2030 | tata, honda, mahindra, hyundai, nissan, mg, etc. |
+| year type 4 | 2 digits → 2010-2030 | volkswagen, toyota |
+| year type 5 | `5`-`9`, `A`-`Y` → 2005-2030 | maruti suzuki |
+| month type 1 | letter → jan-dec | tata |
+| month type 2 | `A`-`M` → jan-dec | honda, hyundai, mahindra, kia, etc. |
+| month type 5 | `1`-`9`, `A`-`C` → jan-dec | nissan, renault |
 
 ---
 
-## stack
+## tech stack
 
-- zero npm dependencies — pure vanilla html/css/js
-- zero api calls — all decoding client-side
-- zero build step — static site on vercel
+- pure vanilla html / css / js, no framework, no build step
+- all decoding happens client-side; the lookup tables live in `public/script.js`
+- served as static assets from **cloudflare workers**, with a small worker that sets cache headers (7 days for js / css / images, 5 minutes for html)
+- `wrangler` is the only (dev) dependency
+
+---
+
+## getting started
+
+```bash
+git clone https://github.com/kjhq/vin-decoder.git
+cd vin-decoder
+npm install
+npm run preview   # wrangler dev, or just open public/index.html
+```
+
+### deploy
+
+```bash
+npm run deploy    # wrangler deploy
+```
+
+the worker name, asset directory and custom domain are set in `wrangler.jsonc`. there are no environment variables.
 
 ---
 
 ## project structure
 
 ```
-VIN-Decoder/
-├── index.html
-├── script.js
-├── style.css
-├── disclaimer.html
+vin-decoder/
+├── public/
+│   ├── index.html        # the decoder page
+│   ├── script.js         # manufacturer + year / month lookup tables, decoding
+│   ├── style.css
+│   └── disclaimer.html   # legal disclaimer
+├── workers/
+│   └── asset-cache.js    # serves assets, sets cache-control
+├── wrangler.jsonc
+├── package.json
 └── TODO
-```
-
----
-
-## run locally
-
-```bash
-git clone https://github.com/kjhq/vin-decoder.git
-open VIN-Decoder/index.html
 ```
 
 ---
@@ -78,11 +118,18 @@ open VIN-Decoder/index.html
 ## known limitations
 
 - no support for older maruti suzuki (pre-2010 encoding)
-- vw/skoda share `MEX` after 2021 (ambiguity)
-- ford month encoding not fully implemented
-- decodes manufacturer, year, month only — not plant/serial
+- volkswagen and skoda share `MEX` after 2021, so those vins are ambiguous
+- fiat and jeep share the `MCA` code; the table currently resolves it to jeep
+- ford month encoding is not implemented yet
+- decodes manufacturer, year and month only, not plant or serial number
 
-see [open issues](https://github.com/kjhq/vin-decoder/issues) for planned work.
+issues and prs welcome.
+
+---
+
+## disclaimer
+
+results are best-effort and for information only. see the [legal disclaimer](public/disclaimer.html).
 
 ---
 
